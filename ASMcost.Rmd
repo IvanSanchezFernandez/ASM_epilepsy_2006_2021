@@ -8566,7 +8566,7 @@ total_DAYSUPP_pediatric <- inflation_adjusted_ASM_epilepsy %>%
   summarize(total_days = sum(DAYSUPP)) %>% 
   pull()
 total_DAYSUPP_pediatric
-total_years_pediatric <- total_DAYSUPP / 365.24219
+total_years_pediatric <- total_DAYSUPP_pediatric / 365.24219
 total_years_pediatric
 
 # Total prescription days adult
@@ -8575,7 +8575,7 @@ total_DAYSUPP_adult <- inflation_adjusted_ASM_epilepsy %>%
   summarize(total_days = sum(DAYSUPP)) %>% 
   pull()
 total_DAYSUPP_adult
-total_years_adult <- total_DAYSUPP / 365.24219
+total_years_adult <- total_DAYSUPP_adult / 365.24219
 total_years_adult
 
 
@@ -9528,8 +9528,9 @@ ASM_cost_per_person_year_per_year
 # Figure total cost per person year per year
 ASM_cost_per_person_year_per_year_plot <- ggplot(data=ASM_cost_per_person_year_per_year) + 
   geom_line(aes(x=`year(SVCDATE)`, y=median_AWPPPY), color="purple2", lwd=1.5) + 
-  geom_line(aes(x=`year(SVCDATE)`, y=p25_AWPPPY), color="darkblue", lwd=1.5) + 
-  geom_line(aes(x=`year(SVCDATE)`, y=p75_AWPPPY), color="darkblue", lwd=1.5) + 
+  geom_line(aes(x=`year(SVCDATE)`, y=p25_AWPPPY), color="darkblue", lwd=1, lty=2) + 
+  geom_line(aes(x=`year(SVCDATE)`, y=p75_AWPPPY), color="darkblue", lwd=1, lty=2) + 
+  geom_ribbon(aes(x=`year(SVCDATE)`, ymin=p25_AWPPPY, ymax=p75_AWPPPY), fill="darkblue", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -9601,8 +9602,9 @@ ASM_cost_per_person_year_per_year_pediatric
 # Figure total cost per person year per year in pediatric onset epilepsy
 ASM_cost_per_person_year_per_year_pediatric_plot <- ggplot(data=ASM_cost_per_person_year_per_year_pediatric) + 
   geom_line(aes(x=`year(SVCDATE)`, y=median_AWPPPY), color="purple2", lwd=1.5) + 
-  geom_line(aes(x=`year(SVCDATE)`, y=p25_AWPPPY), color="darkblue", lwd=1.5) + 
-  geom_line(aes(x=`year(SVCDATE)`, y=p75_AWPPPY), color="darkblue", lwd=1.5) + 
+  geom_line(aes(x=`year(SVCDATE)`, y=p25_AWPPPY), color="darkblue", lwd=1, lty=2) + 
+  geom_line(aes(x=`year(SVCDATE)`, y=p75_AWPPPY), color="darkblue", lwd=1, lty=2) + 
+  geom_ribbon(aes(x=`year(SVCDATE)`, ymin=p25_AWPPPY, ymax=p75_AWPPPY), fill="darkblue", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -9674,8 +9676,9 @@ ASM_cost_per_person_year_per_year_adult
 # Figure total cost per person year per year in adult onset epilepsy
 ASM_cost_per_person_year_per_year_adult_plot <- ggplot(data=ASM_cost_per_person_year_per_year_adult) + 
   geom_line(aes(x=`year(SVCDATE)`, y=median_AWPPPY), color="purple2", lwd=1.5) + 
-  geom_line(aes(x=`year(SVCDATE)`, y=p25_AWPPPY), color="darkblue", lwd=1.5) + 
-  geom_line(aes(x=`year(SVCDATE)`, y=p75_AWPPPY), color="darkblue", lwd=1.5) + 
+  geom_line(aes(x=`year(SVCDATE)`, y=p25_AWPPPY), color="darkblue", lwd=1, lty=2) + 
+  geom_line(aes(x=`year(SVCDATE)`, y=p75_AWPPPY), color="darkblue", lwd=1, lty=2) + 
+  geom_ribbon(aes(x=`year(SVCDATE)`, ymin=p25_AWPPPY, ymax=p75_AWPPPY), fill="darkblue", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -10086,6 +10089,8 @@ ASM_cost_AWP_by_generic_binary_per_year_plot <- ggplot(data=ASM_cost_by_generic_
   geom_line(aes(x=`year(SVCDATE)`, y=p75_AWP_per_prescription_year, color=generic_binary), lwd=1, lty=2, alpha=0.5) + 
   scale_color_manual(values = c("generic" = "forestgreen",
                                 "brand name"="red")) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_for_plot[ASM_cost_by_generic_binary_per_year_for_plot$generic_binary=="generic", ], aes(x=`year(SVCDATE)`, ymin=p25_AWP_per_prescription_year, ymax=p75_AWP_per_prescription_year), fill="forestgreen", alpha=0.1) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_for_plot[ASM_cost_by_generic_binary_per_year_for_plot$generic_binary=="brand name", ], aes(x=`year(SVCDATE)`, ymin=p25_AWP_per_prescription_year, ymax=p75_AWP_per_prescription_year), fill="red", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -10102,6 +10107,8 @@ ASM_cost_patient_cost_by_generic_binary_per_year_plot <- ggplot(data=ASM_cost_by
   geom_line(aes(x=`year(SVCDATE)`, y=p75_patient_cost_per_prescription_year, color=generic_binary), lwd=1, lty=2, alpha=0.5) + 
   scale_color_manual(values = c("generic" = "forestgreen",
                                 "brand name"="red")) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_for_plot[ASM_cost_by_generic_binary_per_year_for_plot$generic_binary=="generic", ], aes(x=`year(SVCDATE)`, ymin=p25_patient_cost_per_prescription_year, ymax=p75_patient_cost_per_prescription_year), fill="forestgreen", alpha=0.1) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_for_plot[ASM_cost_by_generic_binary_per_year_for_plot$generic_binary=="brand name", ], aes(x=`year(SVCDATE)`, ymin=p25_patient_cost_per_prescription_year, ymax=p75_patient_cost_per_prescription_year), fill="red", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -10204,6 +10211,8 @@ ASM_cost_AWP_by_generic_binary_per_year_pediatric_plot <- ggplot(data=ASM_cost_b
   geom_line(aes(x=`year(SVCDATE)`, y=p75_AWP_per_prescription_year, color=generic_binary), lwd=1, lty=2, alpha=0.5) + 
   scale_color_manual(values = c("generic" = "forestgreen",
                                 "brand name"="red")) +
+    geom_ribbon(data=ASM_cost_by_generic_binary_per_year_pediatric_for_plot[ASM_cost_by_generic_binary_per_year_pediatric_for_plot$generic_binary=="generic", ], aes(x=`year(SVCDATE)`, ymin=p25_AWP_per_prescription_year, ymax=p75_AWP_per_prescription_year), fill="forestgreen", alpha=0.1) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_pediatric_for_plot[ASM_cost_by_generic_binary_per_year_pediatric_for_plot$generic_binary=="brand name", ], aes(x=`year(SVCDATE)`, ymin=p25_AWP_per_prescription_year, ymax=p75_AWP_per_prescription_year), fill="red", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -10220,6 +10229,8 @@ ASM_cost_patient_cost_by_generic_binary_per_year_pediatric_plot <- ggplot(data=A
   geom_line(aes(x=`year(SVCDATE)`, y=p75_patient_cost_per_prescription_year, color=generic_binary), lwd=1, lty=2, alpha=0.5) + 
   scale_color_manual(values = c("generic" = "forestgreen",
                                 "brand name"="red")) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_pediatric_for_plot[ASM_cost_by_generic_binary_per_year_pediatric_for_plot$generic_binary=="generic", ], aes(x=`year(SVCDATE)`, ymin=p25_patient_cost_per_prescription_year, ymax=p75_patient_cost_per_prescription_year), fill="forestgreen", alpha=0.1) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_pediatric_for_plot[ASM_cost_by_generic_binary_per_year_pediatric_for_plot$generic_binary=="brand name", ], aes(x=`year(SVCDATE)`, ymin=p25_patient_cost_per_prescription_year, ymax=p75_patient_cost_per_prescription_year), fill="red", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -10320,6 +10331,8 @@ ASM_cost_AWP_by_generic_binary_per_year_adult_plot <- ggplot(data=ASM_cost_by_ge
   geom_line(aes(x=`year(SVCDATE)`, y=p75_AWP_per_prescription_year, color=generic_binary), lwd=1, lty=2, alpha=0.5) + 
   scale_color_manual(values = c("generic" = "forestgreen",
                                 "brand name"="red")) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_adult_for_plot[ASM_cost_by_generic_binary_per_year_adult_for_plot$generic_binary=="generic", ], aes(x=`year(SVCDATE)`, ymin=p25_AWP_per_prescription_year, ymax=p75_AWP_per_prescription_year), fill="forestgreen", alpha=0.1) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_adult_for_plot[ASM_cost_by_generic_binary_per_year_adult_for_plot$generic_binary=="brand name", ], aes(x=`year(SVCDATE)`, ymin=p25_AWP_per_prescription_year, ymax=p75_AWP_per_prescription_year), fill="red", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
@@ -10336,6 +10349,8 @@ ASM_cost_patient_cost_by_generic_binary_per_year_adult_plot <- ggplot(data=ASM_c
   geom_line(aes(x=`year(SVCDATE)`, y=p75_patient_cost_per_prescription_year, color=generic_binary), lwd=1, lty=2, alpha=0.5) + 
   scale_color_manual(values = c("generic" = "forestgreen",
                                 "brand name"="red")) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_adult_for_plot[ASM_cost_by_generic_binary_per_year_adult_for_plot$generic_binary=="generic", ], aes(x=`year(SVCDATE)`, ymin=p25_patient_cost_per_prescription_year, ymax=p75_patient_cost_per_prescription_year), fill="forestgreen", alpha=0.1) +
+  geom_ribbon(data=ASM_cost_by_generic_binary_per_year_adult_for_plot[ASM_cost_by_generic_binary_per_year_adult_for_plot$generic_binary=="brand name", ], aes(x=`year(SVCDATE)`, ymin=p25_patient_cost_per_prescription_year, ymax=p75_patient_cost_per_prescription_year), fill="red", alpha=0.1) +
   theme(legend.position="none", panel.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.ticks=element_blank(),
         axis.text=element_text(size=14, face="bold"), axis.text.x=element_text(angle=45, hjust=1),
         axis.title=element_text(size=20, face="bold")) +
